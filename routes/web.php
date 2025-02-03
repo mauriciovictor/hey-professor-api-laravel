@@ -4,13 +4,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::get(
     '/',
-
-    fn() =>
-
-
-
-
-
-
-    ['Welcome        ']
+    fn () => ['Welcome        ']
 );
