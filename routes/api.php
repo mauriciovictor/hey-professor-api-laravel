@@ -8,3 +8,12 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/', fn () => ['status' => 'ok']);
+
+Route::middleware('auth:sanctum')
+    ->group(function () {
+        Route::prefix('questions')
+            ->group(function () {
+                Route::post('store', fn () => '')
+                    ->name('question.store');
+            });
+    });
