@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Question\StoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,7 +14,7 @@ Route::middleware('auth:sanctum')
     ->group(function () {
         Route::prefix('questions')
             ->group(function () {
-                Route::post('store', fn () => '')
-                    ->name('question.store');
+                Route::post('store', StoreController::class)
+                    ->name('questions.store');
             });
     });
