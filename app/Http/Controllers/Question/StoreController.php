@@ -13,9 +13,9 @@ class StoreController extends Controller
      */
     public function __invoke(StoreRequest $request)
     {
-
         Question::create([
             'question' => $request->question,
+            'status'   => 'draft',
             'user_id'  => auth()->user()->id,
         ]);
     }
