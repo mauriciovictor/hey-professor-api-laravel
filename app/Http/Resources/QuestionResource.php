@@ -16,16 +16,16 @@ class QuestionResource extends JsonResource
     {
 
         return [
-            'id'         => $this->id,
-            'question'   => $this->question,
-            'status'     => $this->status,
-            'user_id'    => $this->user_id,
+            'id'         => $this->resource->id,
+            'question'   => $this->resource->question,
+            'status'     => $this->resource->status,
+            'user_id'    => $this->resource->user_id,
             'created_by' => [
-                'id'   => $this->user->id,
-                'name' => $this->user->name,
+                'id'   => $this->resource->user->id,
+                'name' => $this->resource->user->name,
             ],
-            'created_at' => $this->created_at->format('Y-m-d'),
-            'updated_at' => $this->updated_at->format('Y-m-d'),
+            'created_at' => $this->resource->created_at->format('Y-m-d'),
+            'updated_at' => $this->resource->updated_at->format('Y-m-d'),
         ];
     }
 }
