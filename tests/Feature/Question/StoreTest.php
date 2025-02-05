@@ -99,3 +99,25 @@
             ]);
         });
     });
+
+    test('after creating wwe should return a status 201 with the following', function () {
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $request = postJson(route('questions.store'), [
+            'question' => 'Lorem ipsum jeremias?',
+        ])->assertCreated();
+
+        $question = Question::latest()->first();
+
+        $request->assertJson([
+            'data' => [
+                'id'         => $question->id,
+                'question'   => $question->question,
+                'status'     => $question->status,
+                'user_id'    => $question->user_id,
+                'created_at' => $question->created_at->format('Y-m-d'),
+                'updated_at' => $question->updated_at->format('Y-m-d'),
+            ],
+        ]);
+    });
