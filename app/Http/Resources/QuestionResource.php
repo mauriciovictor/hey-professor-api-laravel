@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,18 +15,20 @@ class QuestionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        /** @var Question $question **/
+        $question = $this->resource;
 
         return [
-            'id'         => $this->resource->id,
-            'question'   => $this->resource->question,
-            'status'     => $this->resource->status,
-            'user_id'    => $this->resource->user_id,
+            'id'         => $question->id,
+            'question'   => $question->question,
+            'status'     => $question->status,
+            'user_id'    => $question->user_id,
             'created_by' => [
-                'id'   => $this->resource->user->id,
-                'name' => $this->resource->user->name,
+                'id'   => $question->user->id,
+                'name' => $question->user->name,
             ],
-            'created_at' => $this->resource->created_at->format('Y-m-d'),
-            'updated_at' => $this->resource->updated_at->format('Y-m-d'),
+            'created_at' => $question->created_at->format('Y-m-d'),
+            'updated_at' => $question->updated_at->format('Y-m-d'),
         ];
     }
 }
