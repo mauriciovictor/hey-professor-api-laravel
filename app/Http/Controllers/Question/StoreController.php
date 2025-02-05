@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Question;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Question\StoreRequest;
-use App\Models\Question;
-use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\QuestionResource;
 
 class StoreController extends Controller
 {
@@ -14,17 +13,13 @@ class StoreController extends Controller
      */
     public function __invoke(StoreRequest $request)
     {
-        $question = Question::create([
-            'question' => $request->question,
-            'status'   => 'draft',
-            'user_id'  => auth()->user()->id,
-        ]);
+        $question = user()
+            ->questions()
+            ->create([
+                'question' => $request->question,
+                'status'   => 'draft',
+            ]);
 
-        // dd(['data' => $question->toArray()]);
-
-        return response()->json(
-            ['data' => $question->toArray()],
-            Response::HTTP_CREATED
-        );
+        return QuestionResource::make($question);
     }
 }

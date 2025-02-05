@@ -115,6 +115,10 @@
                 'id'         => $question->id,
                 'question'   => $question->question,
                 'status'     => $question->status,
+                'created_by' => [
+                    'id'   => $question->user->id,
+                    'name' => $question->user->name,
+                ],
                 'user_id'    => $question->user_id,
                 'created_at' => $question->created_at->format('Y-m-d'),
                 'updated_at' => $question->updated_at->format('Y-m-d'),
