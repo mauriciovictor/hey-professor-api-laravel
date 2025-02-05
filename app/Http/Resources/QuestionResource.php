@@ -15,20 +15,19 @@ class QuestionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        /** @var Question $question **/
-        $question = $this->resource;
+        /** @var Question $this->resource **/
 
         return [
-            'id'         => $question->id,
-            'question'   => $question->question,
-            'status'     => $question->status,
-            'user_id'    => $question->user_id,
+            'id'         => $this->resource->id,
+            'question'   => $this->resource->question,
+            'status'     => $this->resource->status,
+            'user_id'    => $this->resource->user_id,
             'created_by' => [
-                'id'   => $question->user->id,
-                'name' => $question->user->name,
+                'id'   => $this->resource->user->id,
+                'name' => $this->resource->user->name,
             ],
-            'created_at' => $question->created_at->format('Y-m-d'),
-            'updated_at' => $question->updated_at->format('Y-m-d'),
+            'created_at' => $this->resource->created_at->format('Y-m-d'),
+            'updated_at' => $this->resource->updated_at->format('Y-m-d'),
         ];
     }
 }
