@@ -25,3 +25,84 @@ it('should be able to update a question', function () {
         'question' => 'Updating question?',
     ]);
 });
+
+describe('validation rules', function () {
+    test('question required ', function () {
+        $user = User::factory()->create();
+
+        $question = Question::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        Sanctum::actingAs($user);
+
+        putJson(
+            route('questions.update', $question),
+            []
+        )->assertJsonValidationErrors([
+            'question' => 'required',
+        ]);
+    });
+
+    test('question ending with question mark', function () {
+        $user = User::factory()->create();
+
+        $question = Question::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        Sanctum::actingAs($user);
+
+        putJson(
+            route('questions.update', $question),
+            [
+                'question' => 'Lorem ipsum jeremias',
+            ]
+        )->assertJsonValidationErrors([
+            'question' => 'The question must end with a question mark (?).',
+        ]);
+    });
+
+    test('question min caracteres should be 10', function () {
+        $user = User::factory()->create();
+
+        $question = Question::factory()->create([
+            'user_id'  => $user->id,
+            'question' => 'Lorem?',
+        ]);
+
+        Sanctum::actingAs($user);
+
+        putJson(
+            route('questions.update', $question),
+            [
+                'question' => 'Lorem?',
+            ]
+        )->assertJsonValidationErrors([
+            'question' => 'The question field must be at least 10 characters.',
+        ]);
+    });
+
+    test('question should be unique only if id is different', function () {
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        Question::factory()->create([
+            'question' => 'Lorem ipsum jeremias?',
+            'user_id'  => $user->id,
+            'status'   => 'draft',
+        ]);
+
+        $question = Question::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        // 'Lorem ipsum jeremias?'
+        putJson(
+            route('questions.update', $question),
+            [
+                'question' => 'Lorem ipsum jeremias?',
+            ]
+        )->assertOk();
+    });
+});
