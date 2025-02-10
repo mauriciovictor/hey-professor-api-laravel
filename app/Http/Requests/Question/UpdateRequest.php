@@ -38,7 +38,6 @@ class UpdateRequest extends FormRequest
                 new WithQuestionMark(),
                 'min:10',
                 'unique:questions,' . $question->id,
-                // Rule::unique('questions')->ignore($this->route()->question->id),
             ],
         ];
     }
