@@ -6,6 +6,9 @@ use App\Rules\{OnlyAsDraft, WithQuestionMark};
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
+/**
+ * @property mixed $question
+ */
 class UpdateRequest extends FormRequest
 {
     /**
@@ -25,13 +28,16 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        /** @phpstan-ignore-next-line */
+        $question = $this->route()->question;
+
         return [
             'question' => [
                 'required',
-                new OnlyAsDraft($this->route()->question),
+                new OnlyAsDraft($question),
                 new WithQuestionMark(),
                 'min:10',
-                'unique:questions,' . $this->route()->question->id,
+                'unique:questions,' . $question->id,
                 // Rule::unique('questions')->ignore($this->route()->question->id),
             ],
         ];
