@@ -28,17 +28,16 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        /** @phpstan-ignore-next-line */
-        /** @property mixed $question */
-        $question = $this->route()->question;
+
+        $question = $this->route()->question; //@phpstan-ignore-line
 
         return [
             'question' => [
                 'required',
-                new OnlyAsDraft($question),
+                new OnlyAsDraft($question), //@phpstan-ignore-line
                 new WithQuestionMark(),
                 'min:10',
-                'unique:questions,' . $question->id,
+                'unique:questions,' . $question->id, //@phpstan-ignore-line
             ],
         ];
     }
