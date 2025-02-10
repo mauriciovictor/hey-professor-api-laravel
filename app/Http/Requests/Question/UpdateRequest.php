@@ -29,6 +29,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         /** @phpstan-ignore-next-line */
+        /** @property mixed $question */
         $question = $this->route()->question;
 
         return [
