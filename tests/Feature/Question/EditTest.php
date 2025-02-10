@@ -106,3 +106,32 @@ describe('validation rules', function () {
         )->assertOk();
     });
 });
+
+describe('authorization', function () {
+
+    test(
+        'only the person who create thq eustion can update the same question ',
+        function () {
+            $user_owner = User::factory()->create();
+            $user       = User::factory()->create();
+
+            $question = Question::factory()->create([
+                'user_id' => $user_owner->id,
+            ]);
+
+            Sanctum::actingAs($user);
+
+            putJson(
+                route('questions.update', $question),
+                [
+                    'question' => 'Lorem ipsum jeremias?',
+                ]
+            )->assertForbidden();
+
+            assertDatabaseHas('questions', [
+                'id'       => $question->id,
+                'question' => $question->question,
+            ]);
+        }
+    );
+});
