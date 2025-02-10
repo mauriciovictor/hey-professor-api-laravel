@@ -155,3 +155,37 @@ describe('authorization', function () {
         }
     );
 });
+
+test(
+    'after updating we should return a status 200 with the following',
+    function () {
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $question = Question::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        $request = putJson(
+            route('questions.update', $question),
+            [
+                'question' => 'Lorem ipsum jeremias?',
+            ]
+        );
+
+        $request->assertJson([
+            'data' => [
+                'id'         => $question->id,
+                'question'   => 'Lorem ipsum jeremias?',
+                'status'     => $question->status,
+                'created_by' => [
+                    'id'   => $question->user->id,
+                    'name' => $question->user->name,
+                ],
+                'user_id'    => $question->user_id,
+                'created_at' => $question->created_at->format('Y-m-d'),
+                'updated_at' => $question->updated_at->format('Y-m-d'),
+            ],
+        ]);
+    }
+);
