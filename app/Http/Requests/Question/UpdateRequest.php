@@ -6,9 +6,6 @@ use App\Rules\{OnlyAsDraft, WithQuestionMark};
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * @property mixed $question
- */
 class UpdateRequest extends FormRequest
 {
     /**
