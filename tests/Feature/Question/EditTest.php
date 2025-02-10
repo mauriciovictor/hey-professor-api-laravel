@@ -105,6 +105,26 @@ describe('validation rules', function () {
             ]
         )->assertOk();
     });
+
+    test(
+        'should be able to edit only if the status is in draft',
+        function () {
+            $user = User::factory()->create();
+
+            $question = Question::factory()->create([
+                'user_id' => $user->id,
+                'status'  => 'published',
+            ]);
+
+            Sanctum::actingAs($user);
+
+            putJson(route('questions.update', $question), [
+                'question' => 'Updating question?',
+            ])->assertJsonValidationErrors([
+                'question' => 'The question should be a draft to be able to edit.',
+            ]);
+        }
+    );
 });
 
 describe('authorization', function () {
