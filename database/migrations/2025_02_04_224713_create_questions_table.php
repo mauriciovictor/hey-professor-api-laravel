@@ -15,6 +15,7 @@ return new class () extends Migration {
             $table->foreignId('user_id')->index();
             $table->string('status');
             $table->text('question');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

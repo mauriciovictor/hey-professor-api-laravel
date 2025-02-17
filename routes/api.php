@@ -14,6 +14,7 @@ Route::middleware('auth:sanctum')
     ->group(function () {
         Route::prefix('questions')
             ->group(function () {
+
                 Route::post('store', Question\StoreController::class)
                     ->name('questions.store');
 
@@ -22,5 +23,8 @@ Route::middleware('auth:sanctum')
 
                 Route::delete('/{question}', Question\DeleteController::class)
                     ->name('questions.delete');
+
+                Route::delete('/{question}/archive', Question\ArchiveController::class)
+                    ->name('questions.archive');
             });
     });
