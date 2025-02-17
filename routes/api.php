@@ -19,5 +19,8 @@ Route::middleware('auth:sanctum')
 
                 Route::put('/{question}', Question\UpdateController::class)
                     ->name('questions.update');
+
+                Route::delete('/{question}', Question\DeleteController::class)
+                    ->name('questions.delete');
             });
     });
