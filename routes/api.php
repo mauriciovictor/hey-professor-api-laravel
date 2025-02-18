@@ -26,5 +26,8 @@ Route::middleware('auth:sanctum')
 
                 Route::delete('/{question}/archive', Question\ArchiveController::class)
                     ->name('questions.archive');
+
+                Route::put('/{question}/restore', Question\RestoreController::class)
+                    ->name('questions.restore');
             });
     });
